@@ -5,6 +5,7 @@
 <main class="pg"><a class="back" href="shop.html">← Back to shop</a>
 <h1>Manufactured Spending Guide</h1>
 <p class="lead">A practical guide to manufactured spending, covering credit card rewards, cashback, travel points, sign-up bonuses, and strategies for maximizing credit card benefits.</p>
+<div id="c2" style="max-width:240px;margin:10px 0"></div>
 <div class="pprice" id="p2">$150.00</div>
 <a class="btn" href="product.html?slug=manufactured-spending-guide">View Details &amp; Buy</a>
 <h2>What the guide covers</h2>
@@ -15,7 +16,7 @@
 <footer><span>© 2026 FICO Fixer.</span><span><a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms of Service</a> · <a href="refunds.html">Refund Policy</a></span><span>FICO is a registered trademark of Fair Isaac Corporation. Not affiliated with or endorsed by Fair Isaac Corporation. Credit outcomes vary; no score increase is guaranteed.</span></footer>
 <script src="config.js"></script>
 <script>
-fetch(APP.SUPABASE_URL+"/rest/v1/products?select=price_cents,currency&slug=eq.manufactured-spending-guide&active=eq.true",{headers:{apikey:APP.SUPABASE_KEY}})
-.then(function(r){return r.json();}).then(function(x){if(x&&x[0])document.getElementById("p2").textContent=new Intl.NumberFormat("en-US",{style:"currency",currency:(x[0].currency||"usd").toUpperCase()}).format(x[0].price_cents/100);}).catch(function(){});
+fetch(APP.SUPABASE_URL+"/rest/v1/products?select=price_cents,currency,cover_path,title&slug=eq.manufactured-spending-guide&active=eq.true",{headers:{apikey:APP.SUPABASE_KEY}})
+.then(function(r){return r.json();}).then(function(x){if(x&&x[0]&&x[0].cover_path){var i=document.createElement("img");i.alt=x[0].title;i.style.cssText="width:100%;border-radius:8px;display:block";i.src=APP.SUPABASE_URL+"/storage/v1/object/public/covers/"+encodeURIComponent(x[0].cover_path);document.getElementById("c2").appendChild(i);}if(x&&x[0])document.getElementById("p2").textContent=new Intl.NumberFormat("en-US",{style:"currency",currency:(x[0].currency||"usd").toUpperCase()}).format(x[0].price_cents/100);}).catch(function(){});
 </script>
 </body></html>
