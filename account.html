@@ -15,18 +15,18 @@ input{width:100%;padding:12px 14px;border:1px solid #b9d3e2;border-radius:10px;f
 .btn{margin-top:16px;width:100%;padding:13px;border:0;border-radius:28px;background:var(--gold);color:#071c32;font-weight:900;cursor:pointer;font-size:14px}
 .btn:disabled{opacity:.6}.link{background:none;border:0;color:#087aa6;cursor:pointer;font-size:12px;margin-top:10px;padding:0;text-decoration:underline}
 #msg{margin-top:14px;font-size:13px;font-weight:bold;min-height:18px}.ok{color:#118a55}.err{color:#c0392b}
-.hide{display:none}.buy{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #dbe9f1}.buy button{background:var(--navy);color:#fff;border:0;border-radius:20px;padding:8px 16px;font-weight:bold;cursor:pointer}
-</style></head><body>
+.hide{display:none}.btn.g{background:#fff;border:1px solid #b9d3e2;color:var(--ink);margin:0 0 4px}.or{text-align:center;font-size:12px;color:#789;margin:12px 0 0}.buy{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #dbe9f1}.buy button{background:var(--navy);color:#fff;border:0;border-radius:20px;padding:8px 16px;font-weight:bold;cursor:pointer}
+</style><link rel="icon" href="favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"></head><body>
 <header><a href="index.html">FICO <span>FIXER</span></a><a href="index.html">← Back to site</a></header>
 <main><div class="card">
 
 <div id="auth">
   <h1 id="title">Log in</h1>
   <div class="tabs"><button id="t-login" class="on" type="button">Log in</button><button id="t-signup" type="button">Sign up</button></div>
-  <label for="email">Email</label><input id="email" type="email" autocomplete="email">
+  <button class="btn g" id="google" type="button">Continue with Google</button><div class="or">or use your email</div><label for="email">Email</label><input id="email" type="email" autocomplete="email">
   <label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password" minlength="8">
   <button class="btn" id="go" type="button">Log in</button>
-  <button class="link" id="forgot" type="button">Forgot password?</button>
+  <button class="link" id="forgot" type="button">Forgot password?</button> &nbsp; <button class="link" id="magic" type="button">Email me a login link</button>
 </div>
 
 <div id="reset" class="hide">
@@ -79,18 +79,29 @@ $("save").onclick = async () => {
   if(error){ say(error.message,"err"); return; }
   say("Password updated.","ok"); view("home");
 };
+$("google").onclick = async () => {
+  const {error}=await sb.auth.signInWithOAuth({provider:"google",options:{redirectTo:location.origin+"/account.html"}});
+  if(error) say(error.message,"err");
+};
+$("magic").onclick = async () => {
+  const email=$("email").value.trim();
+  if(!email){ say("Type your email above first.","err"); return; }
+  const {error}=await sb.auth.signInWithOtp({email,options:{emailRedirectTo:location.origin+"/account.html"}});
+  say(error?error.message:"Check your email for a login link.",error?"err":"ok");
+};
 $("out").onclick = async () => { await sb.auth.signOut(); say(); };
 
 
 async function loadBuys(){
   const box=$("buys"); box.textContent="Loading...";
-  const {data,error}=await sb.from("purchases").select("id, products(title,file_path)").order("created_at",{ascending:false});
+  const {data,error}=await sb.from("purchases").select("id, products(title,file_path,slug,kind)").order("created_at",{ascending:false});
   if(error){ box.textContent="Could not load your purchases."; return; }
   if(!data.length){ box.textContent="No purchases yet."; return; }
   box.textContent="";
   data.forEach(row=>{
     const d=document.createElement("div"); d.className="buy";
     const t=document.createElement("span"); t.textContent=row.products.title;
+    if(row.products.kind==="course"){ const l=document.createElement("a"); l.textContent="Open Course"; l.href="course.html?slug="+encodeURIComponent(row.products.slug); l.style.cssText="background:#06264a;color:#fff;border-radius:20px;padding:8px 16px;font-weight:bold;text-decoration:none"; d.append(t,l); box.appendChild(d); return; }
     const b=document.createElement("button"); b.textContent="Download";
     b.onclick=async()=>{
       const {data:u,error:e}=await sb.storage.from("ebooks").createSignedUrl(row.products.file_path,60,{download:true});

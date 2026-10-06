@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Course — FICO Fixer</title><link rel="stylesheet" href="styles.css"><style>
+.cv{max-width:1100px;margin:0 auto;padding:24px 4%}.cv h1{color:var(--navy);margin:0 0 4px;font-size:24px}
+.cv-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:12px 0}
+.cv-bar select{padding:10px;border:1px solid #b9d3e2;border-radius:10px;font:inherit;max-width:100%;background:#f7fcff;color:var(--ink)}
+.cv-bar button,.cv .nb{background:var(--navy);color:#fff;border:0;border-radius:22px;padding:10px 20px;font-weight:bold;cursor:pointer;font-family:inherit}
+.cv-bar button:disabled{opacity:.4;cursor:default}.cv-pos{font-size:13px;font-weight:bold;color:#456}
+.cv-prog{height:6px;background:#d6e6ef;border-radius:4px;overflow:hidden}.cv-prog i{display:block;height:100%;background:var(--blue);width:0}
+.cv-stage{background:#0b1f3a;border-radius:12px;padding:10px;text-align:center;margin-top:10px}.cv-stage canvas{max-width:100%;height:auto;border-radius:6px;background:#fff}
+.cv-msg{padding:30px;text-align:center;font-size:15px}.cv-msg a{text-decoration:underline;color:#087aa6;font-weight:bold}
+.cv-book{margin-top:34px}.cv-book h2{color:var(--navy);margin:0 0 6px}.cv-book iframe{width:100%;height:720px;border:1px solid #b9d3e2;border-radius:12px;background:#fff}
+</style><link rel="icon" href="favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"></head><body>
+<header><div class="wrap nav"><a class="brand" href="index.html"><span class="mark">◩↗</span><div>FICO <span>FIXER</span><small>Better Credit. Brighter Future.</small></div></a><nav><a href="index.html">Home</a><a href="shop.html">Shop</a><a href="coaching.html">Coaching</a><a href="about.html">About</a><a href="faq.html">FAQ</a><a href="contact.html">Contact</a><a href="account.html">Login</a></nav><a class="buy" href="shop.html">🛒 &nbsp;Buy eBook</a></div></header>
+<main class="cv"><a class="back" href="account.html" style="display:inline-block;margin-bottom:10px;font-size:13px;font-weight:bold;color:#087aa6">← My account</a>
+<h1 id="ct">Course</h1><div id="msg" class="cv-msg">Loading your course...</div>
+<div id="viewer" style="display:none">
+<div class="cv-prog"><i id="pg"></i></div>
+<div class="cv-bar"><button id="prev" type="button">← Previous</button><button id="next" type="button">Next →</button>
+<span class="cv-pos" id="pos"></span><select id="mods" aria-label="Jump to module"></select><button id="fs" type="button">Full screen</button></div>
+<div class="cv-stage" id="stage"><canvas id="cv"></canvas></div></div>
+<section class="cv-book" id="book" style="display:none"><h2>Book your coaching session</h2><p style="font-size:14px">Pick a time that works for you.</p><div id="bookbox"></div></section>
+</main>
+<footer><span>© 2026 FICO Fixer.</span><span><a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms of Service</a> · <a href="refunds.html">Refund Policy</a></span><span>FICO is a registered trademark of Fair Isaac Corporation. Not affiliated with or endorsed by Fair Isaac Corporation. Credit outcomes vary; no score increase is guaranteed.</span></footer>
+<script src="config.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function(){
+  var A=window.APP, MODS=[{"page": 4, "title": "01. Know Your Credit DNA"}, {"page": 10, "title": "02. How Credit Reporting Works"}, {"page": 16, "title": "03. Build a 700+ Strategy"}, {"page": 22, "title": "04. Credit Card Optimization"}, {"page": 28, "title": "05. Debt Management"}, {"page": 34, "title": "06. Collections & Negative Accounts"}, {"page": 40, "title": "07. Credit Disputes & FCRA"}, {"page": 46, "title": "08. Metro 2 & e-Oscar Concepts"}, {"page": 52, "title": "09. Business Credit"}, {"page": 58, "title": "10. Major Credit Goals"}, {"page": 64, "title": "11. Credit Recovery & Life Events"}, {"page": 70, "title": "12. Your Long-Term Credit Plan"}];
+  var sb=supabase.createClient(A.SUPABASE_URL,A.SUPABASE_KEY), $=function(i){return document.getElementById(i);};
+  pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+  var slug=new URLSearchParams(location.search).get("slug")||"fico-700-credit-mastery", pdf=null, cur=1, N=0, busy=false, want=0;
+  function msg(h){$("msg").style.display="block";$("msg").innerHTML=h;}
+  async function render(n){
+    if(busy){want=n;return;} busy=true; cur=n;
+    var page=await pdf.getPage(n), w=Math.min($("stage").clientWidth-20,1100), v0=page.getViewport({scale:1}), s=w/v0.width, dpr=window.devicePixelRatio||1;
+    var v=page.getViewport({scale:s*dpr}), cv=$("cv"); cv.width=v.width; cv.height=v.height; cv.style.width=(v.width/dpr)+"px";
+    await page.render({canvasContext:cv.getContext("2d"),viewport:v}).promise; busy=false;
+    $("pos").textContent="Slide "+n+" of "+N; $("pg").style.width=(n/N*100)+"%";
+    $("prev").disabled=n<=1; $("next").disabled=n>=N;
+    var m=0; MODS.forEach(function(x,i){if(n>=x.page)m=i+1;}); $("mods").value=String(m);
+    try{localStorage.setItem("cv:"+slug,String(n));}catch(e){}
+    if(want&&want!==n){var w2=want;want=0;render(w2);} else want=0;
+  }
+  function go(n){ if(!pdf)return; n=Math.max(1,Math.min(N,n)); render(n); }
+  async function init(){
+    var s=await sb.auth.getSession();
+    if(!s.data.session){ msg('Please <a href="account.html">log in</a> to open your course.'); return; }
+    var pr=await sb.from("products").select("title,file_path").eq("slug",slug).eq("active",true).maybeSingle();
+    if(!pr.data){ msg("Course not found."); return; }
+    $("ct").textContent=pr.data.title; document.title=pr.data.title+" — FICO Fixer";
+    var u=await sb.storage.from("ebooks").createSignedUrl(pr.data.file_path,3600);
+    if(u.error){ msg('You do not have access to this course yet. <a href="shop.html">Visit the shop</a>.'); return; }
+    pdf=await pdfjsLib.getDocument(u.data.signedUrl).promise; N=pdf.numPages;
+    var sel=$("mods"); sel.innerHTML='<option value="0">Welcome &amp; overview</option>'+MODS.map(function(m,i){return '<option value="'+(i+1)+'">'+m.title.replace(/&/g,"&amp;")+'</option>';}).join("");
+    sel.onchange=function(){var i=+sel.value; go(i===0?1:MODS[i-1].page);};
+    $("prev").onclick=function(){go(cur-1);}; $("next").onclick=function(){go(cur+1);};
+    $("fs").onclick=function(){var e=$("stage"); if(e.requestFullscreen)e.requestFullscreen();};
+    document.addEventListener("keydown",function(e){ if(e.key==="ArrowRight")go(cur+1); if(e.key==="ArrowLeft")go(cur-1); });
+    window.addEventListener("resize",function(){render(cur);});
+    $("msg").style.display="none"; $("viewer").style.display="block";
+    var saved=0; try{saved=+localStorage.getItem("cv:"+slug)||0;}catch(e){}
+    render(saved>0&&saved<=N?saved:1);
+    if(A.BOOKING_URL){ $("book").style.display="block"; var f=document.createElement("iframe"); f.src=A.BOOKING_URL; f.title="Book a coaching session"; $("bookbox").appendChild(f); }
+    else { $("book").style.display="block"; $("bookbox").innerHTML='<p style="font-size:14px">Coaching booking opens soon. In the meantime, <a href="contact.html" style="text-decoration:underline;color:#087aa6">contact us</a>.</p>'; }
+  }
+  init().catch(function(){ msg("Sorry, the course could not be loaded. Please refresh the page."); });
+})();
+</script></body></html>

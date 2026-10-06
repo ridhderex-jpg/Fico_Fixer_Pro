@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Online Credit Coaching — FICO Fixer</title><link rel="stylesheet" href="styles.css"><style>
+.co{max-width:900px;margin:0 auto;padding:30px 5%}.co h1{color:var(--navy);margin:0 0 8px;font-size:30px}.co h2{color:var(--navy);margin:30px 0 10px;font-size:21px}.co p,.co li{font-size:15px;line-height:1.6}
+.co .rate{display:inline-block;background:var(--gold);color:#071c32;font-weight:900;border-radius:24px;padding:8px 20px;font-size:18px;margin:6px 0}
+.co ol.how{padding-left:20px}.co ul.mods{columns:2;padding-left:20px}.co .cta{display:inline-block;margin-top:6px;text-decoration:none}
+.co iframe{width:100%;height:760px;border:1px solid #b9d3e2;border-radius:12px;background:#fff}.co .note{font-size:12px;color:#567;margin-top:24px}
+@media(max-width:600px){.co ul.mods{columns:1}}
+</style><link rel="icon" href="favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"></head><body>
+<header><div class="wrap nav"><a class="brand" href="index.html"><span class="mark">◩↗</span><div>FICO <span>FIXER</span><small>Better Credit. Brighter Future.</small></div></a><nav><a href="index.html">Home</a><a href="shop.html">Shop</a><a href="coaching.html">Coaching</a><a href="about.html">About</a><a href="faq.html">FAQ</a><a href="contact.html">Contact</a><a href="account.html">Login</a></nav><a class="buy" href="shop.html">🛒 &nbsp;Buy eBook</a></div></header>
+<main class="co"><h1>Online Credit Coaching</h1>
+<p>Work one-on-one with a credit coach in a live online session. Your coach walks you through the FICO 700+ Credit Mastery program, then helps you apply it to your own credit situation.</p>
+<div id="rate"></div>
+<h2>How it works</h2>
+<ol class="how"><li><b>Pick a time and book.</b> Choose a time that suits you in the calendar below.</li><li><b>Get your meeting link.</b> You will receive an email with the video call details.</li><li><b>Live session.</b> Your coach presents the program slides and works through your situation with you.</li><li><b>Leave with an action plan.</b> You finish with clear next steps and a follow-up date.</li></ol>
+<h2>What the program covers</h2><ul class="mods"><li>Know Your Credit DNA</li><li>How Credit Reporting Works</li><li>Build a 700+ Strategy</li><li>Credit Card Optimization</li><li>Debt Management</li><li>Collections &amp; Negative Accounts</li><li>Credit Disputes &amp; FCRA</li><li>Metro 2 &amp; e-Oscar Concepts</li><li>Business Credit</li><li>Major Credit Goals</li><li>Credit Recovery &amp; Life Events</li><li>Your Long-Term Credit Plan</li></ul>
+<h2 id="book">Book your session</h2><div id="bookbox"></div>
+<p class="note">Educational coaching only. It is not legal, financial, tax or lending advice. Credit-score results vary by individual profile, and no specific score increase, deletion, approval or financing result is guaranteed. See our <a href="refunds.html" style="text-decoration:underline">Refund &amp; Cancellation Policy</a>.</p></main>
+<footer><span>© 2026 FICO Fixer.</span><span><a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms of Service</a> · <a href="refunds.html">Refund Policy</a></span><span>FICO is a registered trademark of Fair Isaac Corporation. Not affiliated with or endorsed by Fair Isaac Corporation. Credit outcomes vary; no score increase is guaranteed.</span></footer>
+<script src="config.js"></script><script>
+(function(){var A=window.APP;
+if(A.COACHING_RATE){var r=document.getElementById("rate");var s=document.createElement("span");s.className="rate";s.textContent=A.COACHING_RATE;r.appendChild(s);}
+var b=document.getElementById("bookbox");
+if(A.BOOKING_URL){var f=document.createElement("iframe");f.src=A.BOOKING_URL;f.title="Book a coaching session";b.appendChild(f);}
+else{b.innerHTML='<p>Online booking opens soon. To reserve a session now, please <a href="contact.html" style="text-decoration:underline;color:#087aa6;font-weight:bold">contact us</a>.</p>';}
+})();
+</script></body></html>
