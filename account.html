@@ -15,7 +15,7 @@ input{width:100%;padding:12px 14px;border:1px solid #b9d3e2;border-radius:10px;f
 .btn{margin-top:16px;width:100%;padding:13px;border:0;border-radius:28px;background:var(--gold);color:#071c32;font-weight:900;cursor:pointer;font-size:14px}
 .btn:disabled{opacity:.6}.link{background:none;border:0;color:#087aa6;cursor:pointer;font-size:12px;margin-top:10px;padding:0;text-decoration:underline}
 #msg{margin-top:14px;font-size:13px;font-weight:bold;min-height:18px}.ok{color:#118a55}.err{color:#c0392b}
-.hide{display:none}
+.hide{display:none}.buy{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #dbe9f1}.buy button{background:var(--navy);color:#fff;border:0;border-radius:20px;padding:8px 16px;font-weight:bold;cursor:pointer}
 </style></head><body>
 <header><a href="index.html">FICO <span>FIXER</span></a><a href="index.html">← Back to site</a></header>
 <main><div class="card">
@@ -39,7 +39,7 @@ input{width:100%;padding:12px 14px;border:1px solid #b9d3e2;border-radius:10px;f
   <h1>My Account</h1>
   <p>Signed in as <b id="who"></b></p>
   <h3>My purchases</h3>
-  <p style="font-size:13px">Your purchased ebooks will appear here once payments are connected.</p>
+  <div id="buys" style="font-size:13px">Loading...</div>
   <button class="btn" id="out" type="button">Log out</button>
 </div>
 
@@ -81,9 +81,28 @@ $("save").onclick = async () => {
 };
 $("out").onclick = async () => { await sb.auth.signOut(); say(); };
 
+
+async function loadBuys(){
+  const box=$("buys"); box.textContent="Loading...";
+  const {data,error}=await sb.from("purchases").select("id, products(title,file_path)").order("created_at",{ascending:false});
+  if(error){ box.textContent="Could not load your purchases."; return; }
+  if(!data.length){ box.textContent="No purchases yet."; return; }
+  box.textContent="";
+  data.forEach(row=>{
+    const d=document.createElement("div"); d.className="buy";
+    const t=document.createElement("span"); t.textContent=row.products.title;
+    const b=document.createElement("button"); b.textContent="Download";
+    b.onclick=async()=>{
+      const {data:u,error:e}=await sb.storage.from("ebooks").createSignedUrl(row.products.file_path,60,{download:true});
+      if(e){ say("Download failed. Please try again.","err"); return; }
+      location.href=u.signedUrl;
+    };
+    d.append(t,b); box.appendChild(d);
+  });
+}
 sb.auth.onAuthStateChange((ev,session)=>{
   if(ev==="PASSWORD_RECOVERY"){ view("reset"); return; }
-  if(session){ $("who").textContent=session.user.email; view("home"); } else { view("auth"); }
+  if(session){ $("who").textContent=session.user.email; view("home"); loadBuys(); } else { view("auth"); }
 });
 sb.auth.getSession().then(({data})=>{ if(!data.session) view("auth"); });
 </script></body></html>
