@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Manufactured Spending Guide — FICO Fixer</title><link rel="stylesheet" href="styles.css"></head><body>
+<header><div class="wrap nav"><a class="brand" href="index.html"><span class="mark">◩↗</span><div>FICO <span>FIXER</span><small>Better Credit. Brighter Future.</small></div></a><nav><a href="index.html">Home</a><a href="shop.html">Shop</a><a href="about.html">About</a><a href="faq.html">FAQ</a><a href="contact.html">Contact</a><a href="account.html">Login</a></nav><a class="buy" href="shop.html">🛒 &nbsp;Buy eBook</a></div></header>
+<main class="pg"><a class="back" href="shop.html">← Back to shop</a>
+<h1>Manufactured Spending Guide</h1>
+<p class="lead">A practical guide to manufactured spending, covering credit card rewards, cashback, travel points, sign-up bonuses, and strategies for maximizing credit card benefits.</p>
+<div class="pprice" id="p2">$150.00</div>
+<a class="btn" href="product.html?slug=manufactured-spending-guide">View Details &amp; Buy</a>
+<h2>What the guide covers</h2>
+<ul class="plist"><li>Credit card rewards</li><li>Cashback</li><li>Travel points</li><li>Sign-up bonuses</li><li>Strategies for maximizing credit card benefits</li></ul>
+<h2>Good to know</h2>
+<p>This is a digital ebook (PDF). After purchase, log in to your account to download it. It is educational content only, not financial or legal advice. Card issuers set their own terms, so always read and follow your card agreements. Results vary and no earnings or rewards are guaranteed.</p>
+</main>
+<footer><span>© 2026 FICO Fixer.</span><span><a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms of Service</a> · <a href="refunds.html">Refund Policy</a></span><span>FICO is a registered trademark of Fair Isaac Corporation. Not affiliated with or endorsed by Fair Isaac Corporation. Credit outcomes vary; no score increase is guaranteed.</span></footer>
+<script src="config.js"></script>
+<script>
+fetch(APP.SUPABASE_URL+"/rest/v1/products?select=price_cents,currency&slug=eq.manufactured-spending-guide&active=eq.true",{headers:{apikey:APP.SUPABASE_KEY}})
+.then(function(r){return r.json();}).then(function(x){if(x&&x[0])document.getElementById("p2").textContent=new Intl.NumberFormat("en-US",{style:"currency",currency:(x[0].currency||"usd").toUpperCase()}).format(x[0].price_cents/100);}).catch(function(){});
+</script>
+</body></html>

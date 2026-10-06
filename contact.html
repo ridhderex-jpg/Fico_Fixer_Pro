@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Contact — FICO Fixer</title><link rel="stylesheet" href="styles.css"></head><body>
+<header><div class="wrap nav"><a class="brand" href="index.html"><span class="mark">◩↗</span><div>FICO <span>FIXER</span><small>Better Credit. Brighter Future.</small></div></a><nav><a href="index.html">Home</a><a href="shop.html">Shop</a><a href="about.html">About</a><a href="faq.html">FAQ</a><a href="contact.html">Contact</a><a href="account.html">Login</a></nav><a class="buy" href="shop.html">🛒 &nbsp;Buy eBook</a></div></header>
+<section class="contact-form-sec" id="message"><div class="box"><h2>Contact Us</h2><p class="sub">Questions about the book? Send us a message and we'll get back to you.</p>
+<form class="cf" id="contact-form" novalidate>
+<label for="cf-name">Your name</label><input id="cf-name" name="name" type="text" maxlength="100" autocomplete="name" required>
+<label for="cf-email">Your email</label><input id="cf-email" name="email" type="email" maxlength="254" autocomplete="email" required>
+<label for="cf-message">Message</label><textarea id="cf-message" name="message" maxlength="5000" required></textarea>
+<div class="hp" aria-hidden="true"><label>Leave this empty<input id="cf-website" name="website" type="text" tabindex="-1" autocomplete="off"></label></div>
+<button class="btn" type="submit" id="cf-btn">Send Message</button>
+<div id="cf-status" role="status" aria-live="polite"></div>
+</form></div></section>
+
+<footer><span>© 2026 FICO Fixer.</span><span><a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms of Service</a> · <a href="refunds.html">Refund Policy</a></span><span>FICO is a registered trademark of Fair Isaac Corporation. Not affiliated with or endorsed by Fair Isaac Corporation. Credit outcomes vary; no score increase is guaranteed.</span></footer>
+<script src="config.js"></script>
+<script>
+(function(){
+  var A=window.APP,form=document.getElementById("contact-form"),btn=document.getElementById("cf-btn"),status=document.getElementById("cf-status");
+  function show(m,c){status.textContent=m;status.className=c||"";}
+  form.addEventListener("submit",async function(e){
+    e.preventDefault();
+    if(document.getElementById("cf-website").value)return;
+    var name=document.getElementById("cf-name").value.trim(),email=document.getElementById("cf-email").value.trim(),message=document.getElementById("cf-message").value.trim();
+    if(!name||!message||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){show("Please enter your name, a valid email, and a message.","err");return;}
+    btn.disabled=true;show("Sending...");
+    try{
+      var res=await fetch(A.SUPABASE_URL+"/rest/v1/contact_messages",{method:"POST",headers:{"Content-Type":"application/json","apikey":A.SUPABASE_KEY,"Prefer":"return=minimal"},body:JSON.stringify({name:name,email:email,message:message})});
+      if(!res.ok)throw new Error("HTTP "+res.status);
+      form.reset();show("Thank you! Your message was sent.","ok");
+    }catch(err){show("Sorry, something went wrong. Please try again in a moment.","err");}
+    finally{btn.disabled=false;}
+  });
+})();
+</script>
+</body></html>

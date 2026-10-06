@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>eBook — FICO Fixer</title><link rel="stylesheet" href="styles.css"></head><body>
+<header><div class="wrap nav"><a class="brand" href="index.html"><span class="mark">◩↗</span><div>FICO <span>FIXER</span><small>Better Credit. Brighter Future.</small></div></a><nav><a href="index.html">Home</a><a href="shop.html">Shop</a><a href="about.html">About</a><a href="faq.html">FAQ</a><a href="contact.html">Contact</a><a href="account.html">Login</a></nav><a class="buy" href="shop.html">🛒 &nbsp;Buy eBook</a></div></header>
+<main class="pg"><a class="back" href="shop.html">← Back to shop</a><div id="pd">Loading...</div></main>
+<footer><span>© 2026 FICO Fixer.</span><span><a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms of Service</a> · <a href="refunds.html">Refund Policy</a></span><span>FICO is a registered trademark of Fair Isaac Corporation. Not affiliated with or endorsed by Fair Isaac Corporation. Credit outcomes vary; no score increase is guaranteed.</span></footer>
+<script src="config.js"></script>
+<script>
+(function(){
+  var A=window.APP,slug=new URLSearchParams(location.search).get("slug"),box=document.getElementById("pd");
+  if(!slug){box.textContent="Product not found.";return;}
+  fetch(A.SUPABASE_URL+"/rest/v1/products?select=slug,title,description,price_cents,currency&active=eq.true&slug=eq."+encodeURIComponent(slug),{headers:{apikey:A.SUPABASE_KEY}})
+  .then(function(r){if(!r.ok)throw 0;return r.json();})
+  .then(function(rows){
+    if(!rows.length){box.textContent="Product not found.";return;}
+    var it=rows[0];document.title=it.title+" — FICO Fixer";box.textContent="";
+    var w=document.createElement("div");w.className="pdet";
+    var cv=document.createElement("div");cv.className="pcover";cv.textContent="eBook";
+    var r=document.createElement("div");
+    var h=document.createElement("h1");h.textContent=it.title;
+    var p=document.createElement("p");p.textContent=it.description||"";
+    var pr=document.createElement("div");pr.className="pprice";
+    pr.textContent=new Intl.NumberFormat("en-US",{style:"currency",currency:(it.currency||"usd").toUpperCase()}).format(it.price_cents/100);
+    var b=document.createElement("button");b.className="btn";b.type="button";
+    if(A.CHECKOUT_ENABLED){b.textContent="Buy Now";b.onclick=function(){location.href="account.html?buy="+encodeURIComponent(it.slug);};}
+    else{b.textContent="Coming soon";b.disabled=true;}
+    var n=document.createElement("p");n.style.fontSize="12px";n.textContent="After purchase, log in to your account to download your ebook.";
+    r.append(h,p,pr,b,n);w.append(cv,r);box.appendChild(w);
+  }).catch(function(){box.textContent="Could not load this product. Please refresh.";});
+})();
+</script>
+</body></html>
