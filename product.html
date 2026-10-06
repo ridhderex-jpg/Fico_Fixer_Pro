@@ -9,13 +9,13 @@
 (function(){
   var A=window.APP,slug=new URLSearchParams(location.search).get("slug"),box=document.getElementById("pd");
   if(!slug){box.textContent="Product not found.";return;}
-  fetch(A.SUPABASE_URL+"/rest/v1/products?select=slug,title,description,price_cents,currency&active=eq.true&slug=eq."+encodeURIComponent(slug),{headers:{apikey:A.SUPABASE_KEY}})
+  fetch(A.SUPABASE_URL+"/rest/v1/products?select=slug,title,description,price_cents,currency,cover_path&active=eq.true&slug=eq."+encodeURIComponent(slug),{headers:{apikey:A.SUPABASE_KEY}})
   .then(function(r){if(!r.ok)throw 0;return r.json();})
   .then(function(rows){
     if(!rows.length){box.textContent="Product not found.";return;}
     var it=rows[0];document.title=it.title+" — FICO Fixer";box.textContent="";
     var w=document.createElement("div");w.className="pdet";
-    var cv=document.createElement("div");cv.className="pcover";cv.textContent="eBook";
+    var cv=APP.cover(it);
     var r=document.createElement("div");
     var h=document.createElement("h1");h.textContent=it.title;
     var p=document.createElement("p");p.textContent=it.description||"";
