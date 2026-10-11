@@ -111,9 +111,37 @@ async function loadBuys(){
     d.append(t,b); box.appendChild(d);
   });
 }
+const qs = new URLSearchParams(location.search);
+if (qs.get("buy")) localStorage.setItem("pendingBuy", qs.get("buy"));
+let paidShown = false;
+
+async function startCheckout(slug, token){
+  say("Taking you to secure checkout...");
+  try{
+    const r = await fetch("/api/checkout",{method:"POST",
+      headers:{"Content-Type":"application/json",Authorization:"Bearer "+token},
+      body:JSON.stringify({slug})});
+    const j = await r.json();
+    if(!r.ok || !j.url){ say(j.error || "Could not start checkout.","err"); return; }
+    location.href = j.url;
+  }catch(e){ say("Could not start checkout.","err"); }
+}
+
 sb.auth.onAuthStateChange((ev,session)=>{
   if(ev==="PASSWORD_RECOVERY"){ view("reset"); return; }
-  if(session){ $("who").textContent=session.user.email; view("home"); loadBuys(); } else { view("auth"); }
+  if(session){
+    $("who").textContent=session.user.email; view("home"); loadBuys();
+    const pending=localStorage.getItem("pendingBuy");
+    if(pending){ localStorage.removeItem("pendingBuy"); startCheckout(pending, session.access_token); }
+    if(qs.get("paid") && !paidShown){
+      paidShown=true;
+      say("Payment received! Your ebook will appear below in a moment.","ok");
+      [3000,8000,15000].forEach(ms=>setTimeout(loadBuys,ms));
+    }
+  } else {
+    view("auth");
+    if(localStorage.getItem("pendingBuy")) say("Log in or sign up to continue your purchase.","ok");
+  }
 });
 sb.auth.getSession().then(({data})=>{ if(!data.session) view("auth"); });
 </script></body></html>
