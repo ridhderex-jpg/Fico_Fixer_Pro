@@ -1,8 +1,132 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>About — FICO Fixer</title><link rel="stylesheet" href="styles.css"><link rel="icon" href="favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"></head><body>
+<title>About — FICO Fixer</title><link rel="stylesheet" href="styles.css"><link rel="icon" href="favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png"><link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+.abx *{box-sizing:border-box}
+.abx{font-family:Arial,Helvetica,sans-serif;color:#0b2e56}
+.abx-hero{background:linear-gradient(135deg,#031b36 0%,#06264a 55%,#087aa6 100%);color:#fff;padding:70px 5%}
+.abx-hero-in{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:56px}
+.abx-photo{flex:0 0 320px;width:320px;height:320px;border-radius:50%;overflow:hidden;border:6px solid #ffc51b;box-shadow:0 16px 48px rgba(0,0,0,.45);background:#0b2e56}
+.abx-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.abx-kicker{margin:0 0 10px;font-size:15px;font-weight:bold;letter-spacing:3px;text-transform:uppercase;color:#00b7e8}
+.abx-hero h1{margin:0 0 18px;font-size:58px;line-height:1.05;color:#fff}
+.abx-lead{margin:0 0 26px;font-size:20px;line-height:1.7;color:#d7e9f5;max-width:640px}
+.abx-pills{display:flex;flex-wrap:wrap;gap:10px}
+.abx-pills span{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);border-radius:30px;padding:9px 18px;font-weight:bold;font-size:14px}
+.abx-strip{background:#ffc51b;color:#071c32;text-align:center;padding:22px 5%;font-size:24px;font-weight:900;letter-spacing:1px}
+.abx-sec{max-width:1100px;margin:0 auto;padding:80px 5%}
+.abx-sec.alt{max-width:none;background:#eff8fc}
+.abx-sec.alt .abx-in{max-width:1100px;margin:0 auto}
+.abx-h{margin:0 0 10px;font-size:40px;color:#06264a;text-align:center}
+.abx-bar{width:80px;height:5px;border-radius:3px;background:#00b7e8;margin:0 auto 22px}
+.abx-sub{margin:0 auto 44px;max-width:700px;text-align:center;font-size:18px;line-height:1.7}
+.abx-story{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.abx-story .box{background:#fff;border-radius:18px;padding:34px;box-shadow:0 8px 30px rgba(10,42,74,.12);font-size:18px;line-height:1.8}
+.abx-story .box b{display:block;margin-bottom:10px;font-size:22px;color:#06264a}
+.abx-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.abx-card{background:#fff;border-radius:18px;padding:38px 30px;text-align:center;box-shadow:0 8px 30px rgba(10,42,74,.12);border-top:6px solid #00b7e8}
+.abx-card .ic{font-size:56px;margin-bottom:14px}
+.abx-card h3{margin:0 0 12px;font-size:24px;color:#06264a}
+.abx-card p{margin:0;font-size:17px;line-height:1.7}
+.abx-three{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;text-align:center}
+.abx-three div{background:#fff;border-radius:18px;padding:34px 24px;box-shadow:0 8px 30px rgba(10,42,74,.12)}
+.abx-three b{display:block;font-size:28px;color:#087aa6;margin-bottom:8px}
+.abx-three span{font-size:17px;line-height:1.6}
+.abx-contact{background:linear-gradient(135deg,#031b36,#06264a);color:#fff;border-radius:22px;padding:60px 30px;text-align:center}
+.abx-contact h2{margin:0 0 12px;font-size:40px;color:#fff}
+.abx-contact p{margin:0 auto 26px;max-width:620px;font-size:19px;line-height:1.7;color:#d7e9f5}
+.abx-mail{display:inline-block;margin-bottom:22px;font-size:26px;font-weight:900;color:#ffc51b;text-decoration:none;word-break:break-all}
+.abx-btn{display:inline-block;margin:6px;padding:16px 34px;border-radius:34px;font-weight:900;font-size:16px;text-decoration:none}
+.abx-btn.gold{background:#ffc51b;color:#071c32}
+.abx-btn.line{border:2px solid #fff;color:#fff}
+.abx-note{max-width:800px;margin:34px auto 0;font-size:14px;line-height:1.7;color:#4a6a85;text-align:center}
+@media (max-width:900px){
+  .abx-hero{padding:50px 5%}
+  .abx-hero-in{flex-direction:column;text-align:center;gap:32px}
+  .abx-photo{flex-basis:auto;width:250px;height:250px}
+  .abx-hero h1{font-size:40px}
+  .abx-lead{font-size:18px}
+  .abx-pills{justify-content:center}
+  .abx-strip{font-size:18px}
+  .abx-sec{padding:56px 5%}
+  .abx-h{font-size:30px}
+  .abx-story,.abx-grid,.abx-three{grid-template-columns:1fr}
+  .abx-contact{padding:44px 20px}
+  .abx-contact h2{font-size:30px}
+  .abx-mail{font-size:19px}
+}
+</style></head><body>
 <header><div class="wrap nav"><a class="brand" href="index.html"><span class="mark">◩↗</span><div>FICO <span>FIXER</span><small>Better Credit. Brighter Future.</small></div></a><nav><a href="index.html">Home</a><a href="shop.html">Shop</a><a href="coaching.html">Coaching</a><a href="about.html">About</a><a href="faq.html">FAQ</a><a href="contact.html">Contact</a><a href="account.html">Login</a></nav><a class="buy" href="shop.html">🛒 &nbsp;Buy eBook</a></div></header>
-<section class="author-row" style="margin:30px auto;max-width:1100px"><div class="portrait">👨🏻‍💼</div><div><h2>About the Author</h2><b>Gabriel Brown</b><p>Gabriel Brown is a credit education advocate with a passion for helping people take control of their financial future. After years of experience in the credit and finance industry, he created FICO Fixer to make credit education simple, practical and accessible to everyone.</p></div><div class="credentials">♧ &nbsp;Credit Education Advocate<br>♧ &nbsp;Financial Literacy Expert<br>♧ &nbsp;Helping People Build Better Credit<br>▤ &nbsp;Author of FICO Fixer</div></section>
+
+<div class="abx">
+
+  <section class="abx-hero">
+    <div class="abx-hero-in">
+      <div class="abx-photo"><img src="author.jpg" alt="Gabriel Brown, author of FICO Fixer"></div>
+      <div>
+        <p class="abx-kicker">About the Author</p>
+        <h1>Gabriel Brown</h1>
+        <p class="abx-lead">Gabriel Brown is a credit education advocate with a passion for helping people take control of their financial future. After fixing his own credit and teaching himself how the system works, he created FICO Fixer to make credit education simple, practical and accessible to everyone.</p>
+        <div class="abx-pills">
+          <span>♧ Credit Education Advocate</span>
+          <span>♧ Financial Literacy Expert</span>
+          <span>♧ Helping People Build Better Credit</span>
+          <span>▤ Author of FICO Fixer</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="abx-strip">SIMPLE &nbsp;•&nbsp; PRACTICAL &nbsp;•&nbsp; ACCESSIBLE</div>
+
+  <section class="abx-sec">
+    <h2 class="abx-h">My Story</h2>
+    <div class="abx-bar"></div>
+    <p class="abx-sub">Why FICO Fixer was created.</p>
+    <div class="abx-story">
+      <div class="box"><b>It started with my own credit.</b>Gabriel's path into credit education began with his own credit. Instead of relying on guesswork, he taught himself how the system works, learning step by step while fixing his own credit.</div>
+      <div class="box"><b>Then it became FICO Fixer.</b>What he learned along the way became the foundation for FICO Fixer: credit education that is simple, practical and accessible to everyone, written for people who want to understand their credit and take control of their financial future.</div>
+    </div>
+  </section>
+
+  <section class="abx-sec alt">
+    <div class="abx-in">
+      <h2 class="abx-h">Who This Is For</h2>
+      <div class="abx-bar"></div>
+      <p class="abx-sub">FICO Fixer is written for people at different points in their credit journey.</p>
+      <div class="abx-grid">
+        <div class="abx-card"><div class="ic">🌱</div><h3>Beginners</h3><p>New to credit? Start with the basics and learn how credit works, explained in plain language.</p></div>
+        <div class="abx-card"><div class="ic">🔧</div><h3>People Rebuilding Credit</h3><p>Starting over after setbacks? Learn how the system works so you can take control of your next steps.</p></div>
+        <div class="abx-card"><div class="ic">🏠</div><h3>People Buying a Home</h3><p>Planning to buy a home? Understand your credit and make informed decisions about your financial future.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="abx-sec">
+    <h2 class="abx-h">Our Approach</h2>
+    <div class="abx-bar"></div>
+    <p class="abx-sub">Everything on FICO Fixer is built around three ideas.</p>
+    <div class="abx-three">
+      <div><b>Simple</b><span>Credit education explained in a clear, easy-to-follow way.</span></div>
+      <div><b>Practical</b><span>Information you can actually use to take control of your credit.</span></div>
+      <div><b>Accessible</b><span>Credit education for everyone, wherever you are starting from.</span></div>
+    </div>
+  </section>
+
+  <section class="abx-sec alt">
+    <div class="abx-in">
+      <div class="abx-contact">
+        <h2>Get in Touch</h2>
+        <p>Have a question for Gabriel? Send an email, or browse the eBooks in the shop.</p>
+        <a class="abx-mail" href="mailto:gbrown@diamondstatedivisions.com">gbrown@diamondstatedivisions.com</a><br>
+        <a class="abx-btn gold" href="shop.html">Browse eBooks</a>
+        <a class="abx-btn line" href="contact.html">Contact Form</a>
+      </div>
+      <p class="abx-note">FICO Fixer provides educational information only. It is not legal, financial, or credit-repair advice, and individual results vary. No specific outcome or score increase is guaranteed.</p>
+    </div>
+  </section>
+
+</div>
 
 <footer><span>© 2026 FICO Fixer.</span><span><a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms of Service</a> · <a href="refunds.html">Refund Policy</a></span><span>FICO is a registered trademark of Fair Isaac Corporation. Not affiliated with or endorsed by Fair Isaac Corporation. Credit outcomes vary; no score increase is guaranteed.</span></footer>
 <script src="config.js"></script>
