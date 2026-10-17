@@ -95,8 +95,12 @@ $("out").onclick = async () => { await sb.auth.signOut(); say(); };
 
 async function loadBuys(){
   const box=$("buys"); box.textContent="Loading...";
-  const {data,error}=await sb.from("purchases").select("id, products(title,file_path,slug,kind)").order("created_at",{ascending:false});
-  if(error){ box.textContent="Could not load your purchases."; return; }
+   let {data,error}=await sb.from("purchases").select("id, products(title,file_path,slug,kind)").order("created_at",{ascending:false});
+  if(error){
+    const r2=await sb.from("purchases").select("id, products(title,file_path,slug)");
+    data=r2.data; error=r2.error;
+  }
+  if(error){ box.textContent="Could not load your purchases. ("+error.message+")"; return; }
   if(!data.length){ box.textContent="No purchases yet."; return; }
   box.textContent="";
   data.forEach(row=>{
